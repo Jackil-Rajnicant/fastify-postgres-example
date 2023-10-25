@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String @db.VarChar(255)
+  email    String @unique
+  password String
+  salt     String
+}
+
+model Customer {
+  id        Int    @id @default(autoincrement())
+  code      String
+  name      String @db.VarChar(255)
+  shortName String @db.VarChar(255)
+  presType  String @db.VarChar(255)
+  type      String @db.VarChar(255)
+}
+
+model Agency {
+  agen_code             String @id @db.VarChar(255)
+  name                  String @db.VarChar(255)
+  short_name            String @db.VarChar(255)
+  effe_stt_date         Int
+  effe_end_date         Int
+  next_addr_no          Int?
+  tax_reg_number        String? @db.VarChar(255)
+  posting_method        Int?
+  no_of_changes         Int?
+  clnt_ledger_chg       Int?
+  echo_file_yn          String? @db.VarChar(255)
+  creation_datestamp    Int
+  chg_ind               String? @db.VarChar(255)
+  caria_file_yn         String? @db.VarChar(255)
+  external_ref_text     String? @db.VarChar(255)
+  inc_holdings          String? @db.VarChar(255)
+  group_no              Int?
+  schd_create_basis     String? @db.VarChar(255)
+  override_demo_rest_yn String? @db.VarChar(255)
+  schd_create_basis_nm  String? @db.VarChar(255)
+  company_reg_no        String? @db.VarChar(255)
+}
+
+model Advertiser {
+  advt_code             String @id @db.VarChar(255)
+  name                  String @db.VarChar(255)
+  short_name            String @db.VarChar(255)
+  effe_stt_date         Int
+  effe_end_date         Int
+  direct_client_ind     String? @db.VarChar(255)
+  next_addr_no          Int?
+  tax_reg_number        String? @db.VarChar(255)
+  bsar_no               Int?
+  no_of_changes         Int?
+  clnt_ledger_chg       Int?
+  echo_file_yn          String? @db.VarChar(1)
+  advt_ref              Int?
+  acct_mngr_posn_code   String? @db.VarChar(6)
+  planner_posn_code     String? @db.VarChar(6)
+  next_ordr_no          Int?
+  creation_datestamp    Int?
+  chg_ind               String? @db.VarChar(1)
+  caria_file_yn         String? @db.VarChar(1)
+  external_ref_text     String? @db.VarChar(10)
+  inc_holdings          String? @db.VarChar(1)
+  group_no              Int?
+  schd_create_basis     String? @db.VarChar(1)
+  override_demo_rest_yn String? @db.VarChar(1)
+  schd_create_basis_nm  String? @db.VarChar(1)
+  company_reg_no        String? @db.VarChar(20)
+}
+
+model Pres {
+  prod_code          Int
+  clnt_code          String     @db.VarChar(255)
+  pres_effe_stt_date Int
+  pres_type          String     @db.VarChar(255)
+  effe_end_date      Int
+  no_of_changes      Int
+
+  @@id([clnt_code, pres_type, pres_effe_stt_date, effe_end_date, prod_code])
+}
